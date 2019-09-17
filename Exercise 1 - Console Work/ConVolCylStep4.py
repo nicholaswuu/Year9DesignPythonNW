@@ -35,7 +35,7 @@ while (radius != 0 or height != 0):
 	if (radius >= 0 and height >= 0):
 		volume = math.pi*math.pow(radius, 2)*height
 		volume = round(volume, 2)
-		file.write(str(volume)+"\n")
+		file.write("\u03C0 \u00d7 "+str(radius)+"\u00b2 \u00d7 "+str(height)+" = "+str(volume)+"\n")
 
 
 		#Output
