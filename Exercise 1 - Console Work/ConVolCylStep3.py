@@ -27,16 +27,18 @@ while (radius != 0 or height != 0):
 	#Process
 	#What formula is used to calculate the volume of a cylinder?
 	#Volume = pi * radius * radius * height
+	if (radius >= 0 and height >= 0):
+		volume = math.pi*math.pow(radius, 2)*height
+		volume = round(volume, 2)
 
-	volume = math.pi*math.pow(radius, 2)*height
-	volume = round(volume, 2)
 
+		#Output
+		#What is important about the output?
 
-	#Output
-	#What is important about the output?
-
-	print("\nHi "+name+"!")
-	print("\nGiven a cylinder with:")
-	print("\n\tRadius = "+str(radius))
-	print("\n\tHeight = "+str(height))
-	print("\nThe volume is: "+str(volume)+"\n") 
+		print("\nHi "+name+"!")
+		print("\nGiven a cylinder with:")
+		print("\n\tRadius = "+str(radius))
+		print("\n\tHeight = "+str(height))
+		print("\nThe volume is: "+str(volume)+ " cm\u00B3"+"\n") 
+	else:
+		print("\n\tError! Non-Negative Numbers only")
