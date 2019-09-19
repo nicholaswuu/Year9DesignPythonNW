@@ -17,10 +17,11 @@ radius = 1
 height = 1
 while (radius != 0 or height != 0):
 	try:
-		radius = input("\n\tInput radius(cm): ")
+		Unit = input('\n\tUnit: ')
+		radius = input("\n\tInput radius("+Unit+"): ")
 		radius = (int)(radius)
 
-		height = input("\n\tInput height(cm): ")
+		height = input("\n\tInput height("+Unit+"): ")
 		height = (int)(height)
 	except:
 
@@ -45,7 +46,7 @@ while (radius != 0 or height != 0):
 		print("\nGiven a cylinder with:")
 		print("\n\tRadius = "+str(radius))
 		print("\n\tHeight = "+str(height))
-		print("\nThe volume is: "+str(volume)+ " cm\u00B3"+"\n") 
+		print("\nThe volume is: "+str(volume)+" "+Unit+"\u00B3"+"\n") 
 	else:
 		print("\nInvalid input!")
 
