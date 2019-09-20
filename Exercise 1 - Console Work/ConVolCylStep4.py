@@ -29,13 +29,14 @@ while (radius != 0 or height != 0):
 		height = -1
 		radius = -1
 
-
 	#Process
 	#What formula is used to calculate the volume of a cylinder?
 	#Volume = pi * radius * radius * height
+
 	if (radius >= 0 and height >= 0):
+		n = input("\n\tNumber of decimal places: ")
 		volume = math.pi*math.pow(radius, 2)*height
-		volume = round(volume, 2)
+		volume = round(volume, int(n))
 		file.write("\u03C0 \u00d7 "+str(radius)+"\u00b2 \u00d7 "+str(height)+" = "+str(volume)+"\n")
 
 
