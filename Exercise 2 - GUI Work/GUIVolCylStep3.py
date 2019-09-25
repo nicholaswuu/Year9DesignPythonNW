@@ -8,10 +8,25 @@ def calcVolCylinder(radius,height):
 		volume = round(volume, 2)
 		return volume 
 	else:
-		return -1
-		
-def runMe():
-  print("Runnning")
+		return ("Error! Positive Values Only!")
+
+def runMe(*args):
+	r = radiusEntry.get()
+	r = float(r)
+	radiusEntry.delete(0,tk.END)
+
+	h = heightEntry.get()
+	h = float(h)
+	heightEntry.delete(0,tk.END)
+
+	print("Runnning...")
+	volume = calcVolCylinder(r,h)
+	print(volume)
+	output.config(state = "normal")
+	output.delete(0,tk.END)
+	result = "\n\n\tr\t= "+str(r)+" units\n\th\t= "+str(h)+" units\n\tvolume\t= "+str(volume)+" units\u00B3"
+	output.insert(tk.END, result)
+	output.config(state="disabled")
 #MAIN CODE
 root = tk.Tk()
 #Building widgets goes before mainloop.
@@ -40,12 +55,13 @@ output.config(width = 50, height = 10, state = "disabled", borderwidth = 2, reli
 output.pack()
 
 btnrun = tk.Button(root, text = "CALCULATE", highlightbackground='#8e96ab')
-btnrun.config(fg="blue")
+btnrun.config(fg="blue", command = runMe)
 btnrun.pack(fill = tk.BOTH)
 
 check = tk.Checkbutton(root, text = "High Contrast")
 check.config(anchor = tk.W)
 check.pack(fill = tk.BOTH)
 
+root.bind("<Return>",runMe)
 root.mainloop()
 print("End Program")
