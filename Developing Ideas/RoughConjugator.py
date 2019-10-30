@@ -4,21 +4,29 @@ pronoun = input("Pronoun:")
 verb = input("Verb:")
 
 #Process and output:
-n = len(verb)
+n = len(verb) #sets n as the length of the "verb" string
+pronoun = pronoun[0].upper()+pronoun[1:].lower() #sets the pronoun to have a capital first letter
+verb = verb.lower() #sets all letters of the verb to be lower case, in case the user inputs it in uppercase, where the program cant read it.
 
 
-if pronoun == "je" or "Je":	#Check what pronoun it is to determine how to conjugate the auxiliary
+if pronoun == "Je":	#Check what pronoun it is to determine how to conjugate the auxiliary
 	newpronoun = "J'ai"
-if pronoun == "tu":
-	newpronoun =  pronoun + " as"
-if pronoun == "il" or pronoun == "elle" or pronoun == "on":
+
+if pronoun == "Tu":
+	newpronoun = pronoun + " as"
+
+if pronoun == "Il" or pronoun == "Elle" or pronoun == "On":
 	newpronoun = pronoun + " a"
-if pronoun == "nous":
+
+if pronoun == "Nous":
 	newpronoun = pronoun + " avons"
-if pronoun == "vous":
+
+if pronoun == "Vous":
 	newpronoun = pronoun + " avez"
-if pronoun == "ils" or pronoun =="elles":
+
+if pronoun == "Ils" or pronoun == "Elles":
 	newpronoun = pronoun + " ont"
+
 
 if verb[n-2:n] == "er": #check if the verb is an -er verb and if the 
 	print(newpronoun + " "+verb[:n-2]+"é") #if it is, output the conjugated version by taking away "er" and adding é
