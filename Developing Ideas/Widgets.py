@@ -2,7 +2,7 @@ import tkinter as tk
 
 root = tk.Tk()
 
-textbox = tk.Text(root)#Textbox to place outputs and examples.
+textbox = tk.Text(root)		#Textbox to place outputs and examples.
 textbox.config(width = 100, height = 5)	
 textbox.pack()
 textbox.insert(tk.END, "Basic widgets that will be used in this program")
