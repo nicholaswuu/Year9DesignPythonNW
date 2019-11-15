@@ -1,8 +1,10 @@
 import tkinter as tk
+import random
 
 drmrsv = ["devenir", "revenir", "monter", "rester", "sortir", "venir", "aller", "naître", "descendre", "entrer", "rentrer", "tomber", "retourner", "arriver", "mourir", "partir"]
 irregular = ["atteindre", "avoir", "boire", "conduire", "connaître", "construire", "courir", "couvrir", "craindre", "croire", "devoir", "dire", "écrire", "être", "faire", "falloir", "instruire", "joindre", "lire", "mettre", "mourir", "offrir", "ouvrir", "naître", "paraître", "peindre", "pleuvoir", "pouvoir", "prendre", "produire", "recevoir", "savoir", "souffrir", "suivre", "tenir", "venir", "vivre", "voir", "vouloir", "revenir", "devenir", "naître"]
 irregularnew = ["atteint", "eu", "bu", "conduit", "connu", "construit", "couru", "couvert", "craint", "cru", "dû", "dit", "écrit", "été", "fait", "fallu", "instruit", "joint", "lu", "mis", "mort", "offert", "ouvert", "né", "paru", "peint", "plu", "pu", "pris", "produit", "reçu", "su", "souffert", "suivi", "tenu", "venu", "vécu", "vu", "voulu", "revient", "devenu", "né"]
+sentencends = ["un poisson", "au café", "à la parc", "de la musique"]
 
 def conj(*args):
 	pronoun = pnEntry.get()
@@ -77,8 +79,13 @@ def conj(*args):
 	conjtext.insert(tk.END, result)
 	conjtext.config(state = "disabled")
 
-#GUI
+	extext.config(state = "normal")
+	extext.delete("1.0",tk.END)
+	example = newpronoun + newverb + " " +random.choice(sentencends)
+	extext.insert(tk.END, example)
+	extext.config(state = "disabled")
 
+#GUI	
 root = tk.Tk()
 root.title("Conjugator")
 
