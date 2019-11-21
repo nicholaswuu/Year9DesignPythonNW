@@ -4,7 +4,7 @@ import random
 drmrsv = ["devenir", "revenir", "monter", "rester", "sortir", "venir", "aller", "naître", "descendre", "entrer", "rentrer", "tomber", "retourner", "arriver", "mourir", "partir"]
 irregular = ["atteindre", "avoir", "boire", "conduire", "connaître", "construire", "courir", "couvrir", "craindre", "croire", "devoir", "dire", "écrire", "être", "faire", "falloir", "instruire", "joindre", "lire", "mettre", "mourir", "offrir", "ouvrir", "naître", "paraître", "peindre", "pleuvoir", "pouvoir", "prendre", "produire", "recevoir", "savoir", "souffrir", "suivre", "tenir", "venir", "vivre", "voir", "vouloir", "revenir", "devenir", "naître"]
 irregularnew = ["atteint", "eu", "bu", "conduit", "connu", "construit", "couru", "couvert", "craint", "cru", "dû", "dit", "écrit", "été", "fait", "fallu", "instruit", "joint", "lu", "mis", "mort", "offert", "ouvert", "né", "paru", "peint", "plu", "pu", "pris", "produit", "reçu", "su", "souffert", "suivi", "tenu", "venu", "vécu", "vu", "voulu", "revient", "devenu", "né"]
-sentencends = ["un poisson", "au café", "à la parc", "de la musique"]
+sentencends = ["un poisson.", "au café.", "à la parc.", "de la musique.", "à l'hôpital."]
 
 def conj(*args):
 	pronoun = pnEntry.get()
@@ -71,25 +71,32 @@ def conj(*args):
 	if pronoun == "Ils" and verb not in drmrsv or pronoun == "Elles" and verb not in drmrsv:
 		newpronoun = pronoun + " ont "
 
+	conjtext.grid(column = 0, columnspan = 2, row = 6, pady = 10)
 	conjtext.config(state = "normal")
 	conjtext.delete("1.0",tk.END)
+	extext.grid(column = 2, columnspan = 2, row = 6, pady = 10)
+	extext.config(state = "normal")
+	extext.delete("1.0",tk.END)
+
 	step1 = "Step 1: Insert step 1"
 	step2 = "Step 2: Insert step 2"
 	result = step1 + "\n\n" + step2 + "\n\n\n" + newpronoun + newverb
-	conjtext.insert(tk.END, result)
-	conjtext.config(state = "disabled")
-
-	extext.config(state = "normal")
-	extext.delete("1.0",tk.END)
 	example = newpronoun + newverb + " " +random.choice(sentencends)
+	audiobtn = tk.Button(root, text = "Audio")
+	audiobtn.grid(row = 6, column = 0, sticky = "w", padx = 15)
+	audiobtn2 = tk.Button(root, text = "Audio")
+	audiobtn2.grid(row = 6, column = 2, sticky="w", padx = 15)
+	conjtext.insert(tk.END, result)
+	conjtext.config(state = "disabled")	
 	extext.insert(tk.END, example)
 	extext.config(state = "disabled")
 
 #GUI	
 root = tk.Tk()
-root.title("Conjugator")
+root.title("French Conjugator")
 
 optionlist=["auxiliary", "past participle", "pronoun"]
+var = str(optionlist[0])
 
 frbutton = tk.Button(root, text = "French")
 frbutton.config(font = ("arvo", 12), highlightbackground = "#e5f6ff")
@@ -107,7 +114,7 @@ eq1 = tk.Label(root, text = "Passé Compose =  ")
 eq1.config(font = ("arvo", 18), bg = "#e5f6ff")
 eq1.grid(row = 1, column = 0, sticky = "e")
 
-drop1 = tk.OptionMenu(root, *optionlist)
+drop1 = tk.OptionMenu(root, var, *optionlist)
 drop1.config(width = 15)
 drop1.grid(row = 1, column = 1, sticky = "w")
 
@@ -115,7 +122,7 @@ eq1 = tk.Label(root, text = "+")
 eq1.config(font = ("arvo", 20), bg = "#e5f6ff")
 eq1.grid(row = 1, column = 1, sticky = "e")
 
-drop2 = tk.OptionMenu(root, *optionlist)
+drop2 = tk.OptionMenu(root, var, *optionlist)
 drop2.config(width = 15)
 drop2.grid(row = 1, column = 2, sticky = "w")
 
@@ -123,7 +130,7 @@ eq1 = tk.Label(root, text = "+")
 eq1.config(font = ("arvo", 20), bg = "#e5f6ff")
 eq1.grid(row = 1, column = 2, sticky = "e")
 
-drop3 = tk.OptionMenu(root, *optionlist)
+drop3 = tk.OptionMenu(root, var, *optionlist)
 drop3.config(width = 15)
 drop3.grid(row = 1, column = 3, sticky = "w")
 
@@ -159,15 +166,13 @@ conjbutton.grid(column = 3, row = 4, rowspan = 2, sticky = "w")
 
 conjtext = tk.Text(root)
 conjtext.config(font = ("arvo", 16), width = 28, height = 15, state = "disabled")
-conjtext.grid(column = 0, columnspan = 2, row = 6, pady = 10)
 
 extext = tk.Text(root)
 extext.config(font = ("arvo", 16), width = 28, height = 15, state = "disabled")
-extext.grid(column = 2, columnspan = 2, row = 6, pady = 10)
 
 highc = tk.Checkbutton(root, text = "High Contrast")	#Checkbox for high contrast
 highc.config(bg = "#e5f6ff")
-highc.grid(column = 3, columnspan = 2)
+highc.grid(column = 3, columnspan = 2, row = 7)
 
 root.config(bg = "#e5f6ff")
 root.mainloop()
