@@ -1,4 +1,5 @@
 import tkinter as tk
+import os
 import random
 
 drmrsv = ["devenir", "revenir", "monter", "rester", "sortir", "venir", "aller", "naître", "descendre", "entrer", "rentrer", "tomber", "retourner", "arriver", "mourir", "partir"]
@@ -82,29 +83,48 @@ def conj(*args):
 	step2 = "Step 2: Insert step 2"
 	result = step1 + "\n\n" + step2 + "\n\n\n" + newpronoun + newverb
 	example = newpronoun + newverb + " " +random.choice(sentencends)
+
+	def audio(*args):
+		newpronoun = newpronoun.replace("'", "")
+		newverb = newpronoun.replace("(", "")
+		newverb = newpronoun.replace(")", "")
+		os.system("say -v Thomas " + newpronoun + " "+ newverb)
+	def audio2(*args):
+		os.system("say -v Thomas " + example)
+
 	audiobtn = tk.Button(root, text = "Audio")
+	audiobtn.config(command = audio)
 	audiobtn.grid(row = 6, column = 0, sticky = "w", padx = 15)
 	audiobtn2 = tk.Button(root, text = "Audio")
+	audiobtn2.config()
 	audiobtn2.grid(row = 6, column = 2, sticky="w", padx = 15)
 	conjtext.insert(tk.END, result)
 	conjtext.config(state = "disabled")	
 	extext.insert(tk.END, example)
 	extext.config(state = "disabled")
 
+
+
+
 #GUI	
 root = tk.Tk()
 root.title("French Conjugator")
 
 optionlist=["auxiliary", "past participle", "pronoun"]
-var = str(optionlist[0])
+var = tk.StringVar(root)
+var.set(optionlist[0])
+vari = tk.StringVar(root)
+vari.set(optionlist[0])
+varia = tk.StringVar(root)
+varia.set(optionlist[0])
 
-frbutton = tk.Button(root, text = "French")
-frbutton.config(font = ("arvo", 12), highlightbackground = "#e5f6ff")
-frbutton.grid(row = 0, column = 0, sticky = "w", padx = 5)
+frbutton = tk.Button(root, text = "Fr")
+frbutton.config(font = ("arvo", 14), highlightbackground = "#e5f6ff", width = 3, height = 1)
+frbutton.grid(row = 0, column = 0, sticky = "w", padx = 45)
 
-enbutton = tk.Button(root, text = "English")
-enbutton.config(font = ("arvo", 12), highlightbackground = "#e5f6ff")
-enbutton.grid(row = 0, column = 0)
+enbutton = tk.Button(root, text = "En")
+enbutton.config(font = ("arvo", 14), highlightbackground = "#e5f6ff", width = 3, height = 1)
+enbutton.grid(row = 0, column = 0, sticky = "w", padx = 10)
 
 titlelabel = tk.Label(root, text = "Passé Compose Conjugator")
 titlelabel.config(width = 25, height = 2, bg = "#c5eeff", font = ("arvo bold", 25), fg = "#007691")
@@ -115,23 +135,23 @@ eq1.config(font = ("arvo", 18), bg = "#e5f6ff")
 eq1.grid(row = 1, column = 0, sticky = "e")
 
 drop1 = tk.OptionMenu(root, var, *optionlist)
-drop1.config(width = 15)
+drop1.config(width = 11)
 drop1.grid(row = 1, column = 1, sticky = "w")
 
 eq1 = tk.Label(root, text = "+")
 eq1.config(font = ("arvo", 20), bg = "#e5f6ff")
 eq1.grid(row = 1, column = 1, sticky = "e")
 
-drop2 = tk.OptionMenu(root, var, *optionlist)
-drop2.config(width = 15)
+drop2 = tk.OptionMenu(root, vari, *optionlist)
+drop2.config(width = 11)
 drop2.grid(row = 1, column = 2, sticky = "w")
 
 eq1 = tk.Label(root, text = "+")
 eq1.config(font = ("arvo", 20), bg = "#e5f6ff")
 eq1.grid(row = 1, column = 2, sticky = "e")
 
-drop3 = tk.OptionMenu(root, var, *optionlist)
-drop3.config(width = 15)
+drop3 = tk.OptionMenu(root, varia, *optionlist)
+drop3.config(width = 11)
 drop3.grid(row = 1, column = 3, sticky = "w")
 
 check = tk.Button(root, text = "Check Answer")
