@@ -7,6 +7,12 @@ irregular = ["atteindre", "avoir", "boire", "conduire", "connaître", "construir
 irregularnew = ["atteint", "eu", "bu", "conduit", "connu", "construit", "couru", "couvert", "craint", "cru", "dû", "dit", "écrit", "été", "fait", "fallu", "instruit", "joint", "lu", "mis", "mort", "offert", "ouvert", "né", "paru", "peint", "plu", "pu", "pris", "produit", "reçu", "su", "souffert", "suivi", "tenu", "venu", "vécu", "vu", "voulu", "revient", "devenu", "né"]
 sentencends = ["un poisson.", "au café.", "à la parc.", "de la musique.", "à l'hôpital."]
 
+def checkans(*args):
+	if var.get() == "pronoun" and vari.get() == "auxiliary" and varia.get() == "past participle":
+		correct.grid(row = 2, column = 3)
+	else:
+		incorrect.grid(row = 2, column = 3)
+
 def conj(*args):
 	pronoun = pnEntry.get()
 	pnEntry.delete(0,tk.END)
@@ -15,6 +21,7 @@ def conj(*args):
 	n = len(verb) 
 	pronoun = pronoun[0].upper()+pronoun[1:].lower() #sets the pronoun to have a capital first letter
 	verb = verb.lower()
+	sentenceend = random.choice(sentencends)
 
 	if verb[n-2:n] == "er" and verb not in irregular:
 		newverb = verb[:n-2]+"é" 
@@ -79,32 +86,59 @@ def conj(*args):
 	extext.config(state = "normal")
 	extext.delete("1.0",tk.END)
 
-	step1 = "Step 1: Insert step 1"
-	step2 = "Step 2: Insert step 2"
-	result = step1 + "\n\n" + step2 + "\n\n\n" + newpronoun + newverb
-	example = newpronoun + newverb + " " +random.choice(sentencends)
-
-	def audio(*args):
+	def	audio():
+		nonlocal newpronoun, newverb
 		newpronoun = newpronoun.replace("'", "")
-		newverb = newpronoun.replace("(", "")
-		newverb = newpronoun.replace(")", "")
-		os.system("say -v Thomas " + newpronoun + " "+ newverb)
-	def audio2(*args):
-		os.system("say -v Thomas " + example)
+		newverb = newverb.replace("(e)", "")
+		newverb = newverb.replace("(s)", "")
+		if newverb[len(newverb)-1] == "é":
+			newverb = newverb[:len(newverb)-2] + "er"
+		os.system("say -v Thomas " + newpronoun + newverb)
 
+	def audio2():
+		nonlocal newpronoun, newverb, sentenceend
+		newpronoun = newpronoun.replace("'", "")
+		newverb = newverb.replace("(e)", "")
+		newverb = newverb.replace("(s)", "")
+		sentenceend = sentenceend.replace("'", "")
+		if newverb[len(newverb)-1] == "é":
+			newverb = newverb[:len(newverb)-2] + "er"
+		os.system("say -v Thomas " + newpronoun + newverb + " " + sentenceend)
+
+	step1 = " Step 1: Insert step 1"
+	step2 = " Step 2: Insert step 2"
+	result = step1 + "\n\n" + step2 + "\n\n\n" + " " + newpronoun + newverb
+	example = " " + newpronoun + newverb + " " + sentenceend
+	#audio buttons
 	audiobtn = tk.Button(root, text = "Audio")
-	audiobtn.config(command = audio)
-	audiobtn.grid(row = 6, column = 0, sticky = "w", padx = 15)
+	audiobtn.config(command = audio, height = 2, font = ("arvo", 16), highlightbackground = "#e5f6ff")
+	audiobtn.grid(row = 6, column = 0, sticky = "sw", padx = 25, pady = 30)
 	audiobtn2 = tk.Button(root, text = "Audio")
-	audiobtn2.config()
-	audiobtn2.grid(row = 6, column = 2, sticky="w", padx = 15)
+	audiobtn2.config(command = audio2, height = 2, font = ("arvo", 16), highlightbackground = "#e5f6ff")
+	audiobtn2.grid(row = 6, column = 2, sticky="sw", padx = 15, pady = 30)
+
 	conjtext.insert(tk.END, result)
 	conjtext.config(state = "disabled")	
 	extext.insert(tk.END, example)
 	extext.config(state = "disabled")
 
-
-
+def highcontrast(*args):
+	root.config(bg = "#0019a6")
+	titlelabel.config(bg = "black", fg = "white")
+	eq1.config(bg = "#0019a6", fg = "white")
+	eq2.config(bg = "#0019a6", fg = "white")
+	eq3.config(bg = "#0019a6", fg = "white")
+	drop1.config(bg = "white")
+	drop2.config(bg = "white")
+	drop3.config(bg = "white")
+	pnlabel.config(bg = "#0019a6", fg = "white")
+	verblabel.config(bg = "#0019a6", fg = "white")
+	textbox.config(bg = "black", fg = "white")
+	conjtext.config(bg = "black", fg = "white")
+	extext.config(bg = "black", fg = "white")
+	highc.config(bg = "#0019a6", fg = "white")
+	correct.config(bg = "#0019a6", fg = "#52ff54")
+	incorrect.config(bg = "#0019a6")
 
 #GUI	
 root = tk.Tk()
@@ -119,11 +153,11 @@ varia = tk.StringVar(root)
 varia.set(optionlist[0])
 
 frbutton = tk.Button(root, text = "Fr")
-frbutton.config(font = ("arvo", 14), highlightbackground = "#e5f6ff", width = 3, height = 1)
-frbutton.grid(row = 0, column = 0, sticky = "w", padx = 45)
+frbutton.config(font = ("arvo", 15), fg = "#003274", width = 3, height = 2)
+frbutton.grid(row = 0, column = 0, sticky = "w", padx = 50)
 
 enbutton = tk.Button(root, text = "En")
-enbutton.config(font = ("arvo", 14), highlightbackground = "#e5f6ff", width = 3, height = 1)
+enbutton.config(font = ("arvo", 15), fg = "#003274", width = 3, height = 2)
 enbutton.grid(row = 0, column = 0, sticky = "w", padx = 10)
 
 titlelabel = tk.Label(root, text = "Passé Compose Conjugator")
@@ -135,28 +169,34 @@ eq1.config(font = ("arvo", 18), bg = "#e5f6ff")
 eq1.grid(row = 1, column = 0, sticky = "e")
 
 drop1 = tk.OptionMenu(root, var, *optionlist)
-drop1.config(width = 11)
+drop1.config(width = 11, bg = "#e5f6ff")
 drop1.grid(row = 1, column = 1, sticky = "w")
 
-eq1 = tk.Label(root, text = "+")
-eq1.config(font = ("arvo", 20), bg = "#e5f6ff")
-eq1.grid(row = 1, column = 1, sticky = "e")
+eq2 = tk.Label(root, text = "+")
+eq2.config(font = ("arvo", 20), bg = "#e5f6ff")
+eq2.grid(row = 1, column = 1, sticky = "e")
 
 drop2 = tk.OptionMenu(root, vari, *optionlist)
-drop2.config(width = 11)
+drop2.config(width = 11, bg = "#e5f6ff")
 drop2.grid(row = 1, column = 2, sticky = "w")
 
-eq1 = tk.Label(root, text = "+")
-eq1.config(font = ("arvo", 20), bg = "#e5f6ff")
-eq1.grid(row = 1, column = 2, sticky = "e")
+eq3 = tk.Label(root, text = "+")
+eq3.config(font = ("arvo", 20), bg = "#e5f6ff")
+eq3.grid(row = 1, column = 2, sticky = "e")
 
 drop3 = tk.OptionMenu(root, varia, *optionlist)
-drop3.config(width = 11)
+drop3.config(width = 11, bg = "#e5f6ff")
 drop3.grid(row = 1, column = 3, sticky = "w")
 
 check = tk.Button(root, text = "Check Answer")
-check.config(fg = "#003274", highlightbackground = "#89dbff", width = 16, height = 2, font = ("arvo", 16))
+check.config(fg = "#003274", highlightbackground = "#89dbff", width = 16, height = 2, font = ("arvo", 16), command = checkans)
 check.grid(column = 1, columnspan = 2, row = 2, pady = 10)
+
+correct = tk.Label(root, text = "√ Correct!")
+correct.config(fg = "green", font = ("arvo", 18), bg = "#e5f6ff")
+
+incorrect = tk.Label(root, text = "X Incorrect!")
+incorrect.config(fg = "red", font = ("arvo", 18), bg = "#e5f6ff")
 
 textbox = tk.Text(root)		#Textbox to place outputs and examples.
 textbox.config(width = 60, height = 5, state = "normal", bg = "#cff1ff", font = ("arvo", 16))
@@ -184,14 +224,14 @@ conjbutton = tk.Button(root, text = "Conjugate")	#Button, will be used to do the
 conjbutton.config(fg = "#003274", highlightbackground = "#89dbff", width = 15, height=2, command = conj)
 conjbutton.grid(column = 3, row = 4, rowspan = 2, sticky = "w")
 
-conjtext = tk.Text(root)
+conjtext = tk.Text(root, relief = tk.FLAT)
 conjtext.config(font = ("arvo", 16), width = 28, height = 15, state = "disabled")
 
-extext = tk.Text(root)
+extext = tk.Text(root, relief = tk.FLAT)
 extext.config(font = ("arvo", 16), width = 28, height = 15, state = "disabled")
 
 highc = tk.Checkbutton(root, text = "High Contrast")	#Checkbox for high contrast
-highc.config(bg = "#e5f6ff")
+highc.config(bg = "#e5f6ff", command = highcontrast)
 highc.grid(column = 3, columnspan = 2, row = 7)
 
 root.config(bg = "#e5f6ff")

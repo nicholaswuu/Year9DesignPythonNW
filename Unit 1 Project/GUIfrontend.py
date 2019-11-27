@@ -1,36 +1,50 @@
 import tkinter as tk
 
 root = tk.Tk()
-root.title("Conjugator")
+root.title("French Conjugator")
 
 optionlist=["auxiliary", "past participle", "pronoun"]
+var = tk.StringVar(root)
+var.set(optionlist[0])
+vari = tk.StringVar(root)
+vari.set(optionlist[0])
+varia = tk.StringVar(root)
+varia.set(optionlist[0])
+
+frbutton = tk.Button(root, text = "Fr")
+frbutton.config(font = ("arvo", 15), fg = "#003274", width = 3, height = 2)
+frbutton.grid(row = 0, column = 0, sticky = "w", padx = 50)
+
+enbutton = tk.Button(root, text = "En")
+enbutton.config(font = ("arvo", 15), fg = "#003274", width = 3, height = 2)
+enbutton.grid(row = 0, column = 0, sticky = "w", padx = 10)
 
 titlelabel = tk.Label(root, text = "Passé Compose Conjugator")
 titlelabel.config(width = 25, height = 2, bg = "#c5eeff", font = ("arvo bold", 25), fg = "#007691")
-titlelabel.grid(columnspan = 5, pady = 15)
+titlelabel.grid(columnspan = 5, pady = 15, row = 0)
 
 eq1 = tk.Label(root, text = "Passé Compose =  ")
 eq1.config(font = ("arvo", 18), bg = "#e5f6ff")
 eq1.grid(row = 1, column = 0, sticky = "e")
 
-drop1 = tk.OptionMenu(root, *optionlist)
-drop1.config(width = 15)
+drop1 = tk.OptionMenu(root, var, *optionlist)
+drop1.config(width = 11)
 drop1.grid(row = 1, column = 1, sticky = "w")
 
-eq1 = tk.Label(root, text = "+")
-eq1.config(font = ("arvo", 20), bg = "#e5f6ff")
-eq1.grid(row = 1, column = 1, sticky = "e")
+eq2 = tk.Label(root, text = "+")
+eq2.config(font = ("arvo", 20), bg = "#e5f6ff")
+eq2.grid(row = 1, column = 1, sticky = "e")
 
-drop2 = tk.OptionMenu(root, *optionlist)
-drop2.config(width = 15)
+drop2 = tk.OptionMenu(root, vari, *optionlist)
+drop2.config(width = 11)
 drop2.grid(row = 1, column = 2, sticky = "w")
 
-eq1 = tk.Label(root, text = "+")
-eq1.config(font = ("arvo", 20), bg = "#e5f6ff")
-eq1.grid(row = 1, column = 2, sticky = "e")
+eq3 = tk.Label(root, text = "+")
+eq3.config(font = ("arvo", 20), bg = "#e5f6ff")
+eq3.grid(row = 1, column = 2, sticky = "e")
 
-drop3 = tk.OptionMenu(root, *optionlist)
-drop3.config(width = 15)
+drop3 = tk.OptionMenu(root, varia, *optionlist)
+drop3.config(width = 11)
 drop3.grid(row = 1, column = 3, sticky = "w")
 
 check = tk.Button(root, text = "Check Answer")
@@ -64,16 +78,14 @@ conjbutton.config(fg = "#003274", highlightbackground = "#89dbff", width = 15, h
 conjbutton.grid(column = 3, row = 4, rowspan = 2, sticky = "w")
 
 conjtext = tk.Text(root)
-conjtext.config(font = ("arvo", 14), width = 30, height = 15, state = "disabled")
-conjtext.grid(column = 0, columnspan = 2, row = 6, pady = 10)
+conjtext.config(font = ("arvo", 16), width = 28, height = 15, state = "disabled")
 
 extext = tk.Text(root)
-extext.config(font = ("arvo", 14), width = 30, height = 15, state = "disabled")
-extext.grid(column = 2, columnspan = 2, row = 6, pady = 10)
+extext.config(font = ("arvo", 16), width = 28, height = 15, state = "disabled")
 
-check = tk.Checkbutton(root, text = "High Contrast")	#Checkbox for high contrast
-check.config(bg = "#e5f6ff")
-check.grid(column = 3, columnspan = 2)
+highc = tk.Checkbutton(root, text = "High Contrast")	#Checkbox for high contrast
+highc.config(bg = "#e5f6ff")
+highc.grid(column = 3, columnspan = 2, row = 7)
 
 root.config(bg = "#e5f6ff")
 root.mainloop()
