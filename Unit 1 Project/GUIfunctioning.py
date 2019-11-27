@@ -7,11 +7,14 @@ irregular = ["atteindre", "avoir", "boire", "conduire", "connaître", "construir
 irregularnew = ["atteint", "eu", "bu", "conduit", "connu", "construit", "couru", "couvert", "craint", "cru", "dû", "dit", "écrit", "été", "fait", "fallu", "instruit", "joint", "lu", "mis", "mort", "offert", "ouvert", "né", "paru", "peint", "plu", "pu", "pris", "produit", "reçu", "su", "souffert", "suivi", "tenu", "venu", "vécu", "vu", "voulu", "revient", "devenu", "né"]
 sentencends = ["un poisson.", "au café.", "à la parc.", "de la musique.", "à l'hôpital."]
 
+#Functions
 def checkans(*args):
 	if var.get() == "pronoun" and vari.get() == "auxiliary" and varia.get() == "past participle":
 		correct.grid(row = 2, column = 3)
+		incorrect.grid_remove()
 	else:
 		incorrect.grid(row = 2, column = 3)
+		correct.grid_remove()
 
 def conj(*args):
 	pronoun = pnEntry.get()
@@ -94,6 +97,12 @@ def conj(*args):
 		aux = " ont "
 		newpronoun = pronoun + aux
 
+	else:
+		aux = ""
+		newpronoun = ""
+		newverb = ""
+		newerverb = ""
+
 	conjtext.grid(column = 0, columnspan = 2, row = 6, pady = 10)
 	conjtext.config(state = "normal")
 	conjtext.delete("1.0",tk.END)
@@ -145,10 +154,14 @@ def conj(*args):
 		result = step1 + "\n\n" + step2 + "\n\n" + " " + "             ANSWER: "+ newpronoun + newerverb
 		example = " " + newpronoun + newerverb + " " + sentenceend
 	if verb not in drmrsv and verb not in irregular:
-		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
-		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
-		result = step1 + "\n\n" + step2 + "\n\n" + " " + "             ANSWER: "+ newpronoun + newverb
-		example = " " + newpronoun + newverb + " " + sentenceend
+		if pronoun == "" and aux == "":
+			result = "Error! Not a valid pronoun!"
+			example = "Error! Not a valid pronoun!"
+		else:
+			step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
+			step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
+			result = step1 + "\n\n" + step2 + "\n\n" + " " + "             ANSWER: "+ newpronoun + newverb
+			example = " " + newpronoun + newverb + " " + sentenceend
 	if verb not in drmrsv and verb in irregular:
 		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
 		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
@@ -169,22 +182,40 @@ def conj(*args):
 	extext.config(state = "disabled")
 
 def highcontrast(*args):
-	root.config(bg = "#0019a6")
-	titlelabel.config(bg = "black", fg = "white")
-	eq1.config(bg = "#0019a6", fg = "white")
-	eq2.config(bg = "#0019a6", fg = "white")
-	eq3.config(bg = "#0019a6", fg = "white")
-	drop1.config(bg = "white")
-	drop2.config(bg = "white")
-	drop3.config(bg = "white")
-	pnlabel.config(bg = "#0019a6", fg = "white")
-	verblabel.config(bg = "#0019a6", fg = "white")
-	textbox.config(bg = "black", fg = "white")
-	conjtext.config(bg = "black", fg = "white")
-	extext.config(bg = "black", fg = "white")
-	highc.config(bg = "#0019a6", fg = "white")
-	correct.config(bg = "#0019a6", fg = "#52ff54")
-	incorrect.config(bg = "#0019a6")
+	if highcon.get()==1:
+		root.config(bg = "#0019a6")
+		titlelabel.config(bg = "black", fg = "white")
+		eq1.config(bg = "#0019a6", fg = "white")
+		eq2.config(bg = "#0019a6", fg = "white")
+		eq3.config(bg = "#0019a6", fg = "white")
+		drop1.config(bg = "white")
+		drop2.config(bg = "white")
+		drop3.config(bg = "white")
+		pnlabel.config(bg = "#0019a6", fg = "white")
+		verblabel.config(bg = "#0019a6", fg = "white")
+		textbox.config(bg = "black", fg = "white")
+		conjtext.config(bg = "black", fg = "white")
+		extext.config(bg = "black", fg = "white")
+		highc.config(bg = "#0019a6", fg = "white")
+		correct.config(bg = "#0019a6", fg = "#52ff54")
+		incorrect.config(bg = "#0019a6")
+	if highcon.get()==0:
+		root.config(bg = "#e5f6ff")
+		titlelabel.config(bg = "#c5eeff", fg = "#007691")
+		eq1.config(bg = "#e5f6ff", fg = "black")
+		eq2.config(bg = "#e5f6ff", fg = "black")
+		eq3.config(bg = "#e5f6ff", fg = "black")
+		drop1.config(bg = "#e5f6ff")
+		drop2.config(bg = "#e5f6ff")
+		drop3.config(bg = "#e5f6ff")
+		pnlabel.config(bg = "#e5f6ff", fg = "#005274")
+		verblabel.config(bg = "#e5f6ff", fg = "#005274")
+		textbox.config(bg = "#cff1ff", fg = "black")
+		conjtext.config(bg = "white", fg = "black")
+		extext.config(bg = "white", fg = "black")
+		highc.config(bg = "#e5f6ff", fg = "black")
+		correct.config(fg = "green", bg = "#e5f6ff")
+		incorrect.config(fg = "red", bg = "#e5f6ff")
 
 #GUI	
 root = tk.Tk()
@@ -197,6 +228,8 @@ vari = tk.StringVar(root)
 vari.set(optionlist[0])
 varia = tk.StringVar(root)
 varia.set(optionlist[0])
+
+highcon = tk.IntVar()
 
 frbutton = tk.Button(root, text = "Fr")
 frbutton.config(font = ("arvo", 15), fg = "#003274", width = 3, height = 2)
@@ -277,7 +310,7 @@ extext = tk.Text(root, relief = tk.FLAT)
 extext.config(font = ("arvo", 14), width = 33, height = 21, state = "disabled")
 
 highc = tk.Checkbutton(root, text = "High Contrast")	#Checkbox for high contrast
-highc.config(bg = "#e5f6ff", command = highcontrast)
+highc.config(bg = "#e5f6ff", command = highcontrast, var = highcon, onvalue = 1, offvalue = 0)
 highc.grid(column = 3, columnspan = 2, row = 7)
 
 root.config(bg = "#e5f6ff")
