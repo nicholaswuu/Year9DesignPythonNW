@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 import os
 import random
 
@@ -7,7 +8,15 @@ irregular = ["atteindre", "avoir", "boire", "conduire", "connaître", "construir
 irregularnew = ["atteint", "eu", "bu", "conduit", "connu", "construit", "couru", "couvert", "craint", "cru", "dû", "dit", "écrit", "été", "fait", "fallu", "instruit", "joint", "lu", "mis", "mort", "offert", "ouvert", "né", "paru", "peint", "plu", "pu", "pris", "produit", "reçu", "su", "souffert", "suivi", "tenu", "venu", "vécu", "vu", "voulu", "revient", "devenu", "né"]
 sentencends = ["un poisson.", "au café.", "à la parc.", "de la musique.", "à l'hôpital."]
 
+print("Start Program")
+file = open("data.txt", "w")
 #Functions
+
+def on_closing():
+	print("Closing")
+	if messagebox.askokcancel("Quit", "Do you want to quit?"):
+		root.destroy()
+
 def checkans(*args):
 	if var.get() == "pronoun" and vari.get() == "auxiliary" and varia.get() == "past participle":
 		correct.grid(row = 2, column = 3)
@@ -18,13 +27,15 @@ def checkans(*args):
 
 def conj(*args):
 	pronoun = pnEntry.get()
-	pnEntry.delete(0,tk.END)
 	verb = verbEntry.get()
-	verbEntry.delete(0,tk.END)
 	n = len(verb) 
+	pnEntry.delete(0,tk.END)
+	verbEntry.delete(0,tk.END)
 	pronoun = pronoun[0].upper()+pronoun[1:].lower() #sets the pronoun to have a capital first letter
 	verb = verb.lower()
 	sentenceend = random.choice(sentencends)
+	file.write("Pronoun: " + pronoun + "\nVerb: " + verb)
+
 
 	if verb[n-2:n] == "er" and verb not in irregular:
 		ending = "é"
@@ -97,18 +108,13 @@ def conj(*args):
 		aux = " ont "
 		newpronoun = pronoun + aux
 
-	else:
-		aux = ""
-		newpronoun = ""
-		newverb = ""
-		newerverb = ""
-
 	conjtext.grid(column = 0, columnspan = 2, row = 6, pady = 10)
 	conjtext.config(state = "normal")
 	conjtext.delete("1.0",tk.END)
 	extext.grid(column = 2, columnspan = 2, row = 6, pady = 10)
 	extext.config(state = "normal")
 	extext.delete("1.0",tk.END)
+	file.write("\n\t" + newpronoun + newverb + "\n---\n")
 
 	def	audio():
 		nonlocal newpronoun, newerverb, newverb
@@ -142,6 +148,8 @@ def conj(*args):
 				newverb = newverb[:len(newverb)-1] + "er"
 			os.system("say -v Thomas " + newpronoun + newverb + " " + sentenceend)
 
+
+
 	#Step by step explaination
 	if verb in drmrsv and verb not in irregular:
 		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    DRMRSVANDERTRAMP verb, auxiliary is être.\n\n    Conjugate être: \n    Pronoun = " + pronoun + "\n    Conjugate: être –––>" + aux + "\n    So final auxiliary = " + aux
@@ -154,14 +162,10 @@ def conj(*args):
 		result = step1 + "\n\n" + step2 + "\n\n" + " " + "             ANSWER: "+ newpronoun + newerverb
 		example = " " + newpronoun + newerverb + " " + sentenceend
 	if verb not in drmrsv and verb not in irregular:
-		if pronoun == "" and aux == "":
-			result = "Error! Not a valid pronoun!"
-			example = "Error! Not a valid pronoun!"
-		else:
-			step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
-			step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
-			result = step1 + "\n\n" + step2 + "\n\n" + " " + "             ANSWER: "+ newpronoun + newverb
-			example = " " + newpronoun + newverb + " " + sentenceend
+		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
+		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
+		result = step1 + "\n\n" + step2 + "\n\n" + " " + "             ANSWER: "+ newpronoun + newverb
+		example = " " + newpronoun + newverb + " " + sentenceend
 	if verb not in drmrsv and verb in irregular:
 		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
 		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
@@ -280,7 +284,7 @@ incorrect.config(fg = "red", font = ("arvo", 18), bg = "#e5f6ff")
 textbox = tk.Text(root)		#Textbox to place outputs and examples.
 textbox.config(width = 60, height = 5, state = "normal", bg = "#cff1ff", font = ("arvo", 16))
 textbox.grid(row = 3, columnspan = 5, padx = 10)	
-textbox.insert(tk.END, "Passé compose is past tense.")
+textbox.insert(tk.END, "Explaination...")
 textbox.config(state = "disabled")
 
 pnlabel = tk.Label(root, text = "Pronoun: ")
@@ -314,4 +318,8 @@ highc.config(bg = "#e5f6ff", command = highcontrast, var = highcon, onvalue = 1,
 highc.grid(column = 3, columnspan = 2, row = 7)
 
 root.config(bg = "#e5f6ff")
+root.protocol("WM_DELETE_WINDOW", on_closing)
+
 root.mainloop()
+file.close()
+print("End Program")

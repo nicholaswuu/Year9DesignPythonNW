@@ -1,0 +1,12 @@
+Pronoun: Je
+Verb: aller
+	Je suis allé
+---
+Pronoun: Nous
+Verb: voir
+	Nous avons vu
+---
+Pronoun: Nous
+Verb: manger
+	Nous avons mangé
+---
