@@ -36,6 +36,8 @@ def conj(*args):
 	sentenceend = random.choice(sentencends)
 	file.write("Pronoun: " + pronoun + "\nVerb: " + verb)
 
+	textbox.grid_remove()
+
 
 	if verb[n-2:n] == "er" and verb not in irregular:
 		ending = "é"
@@ -108,13 +110,16 @@ def conj(*args):
 		aux = " ont "
 		newpronoun = pronoun + aux
 
-	conjtext.grid(column = 0, columnspan = 2, row = 6, pady = 10)
+	steptext.grid(column = 0, columnspan = 2, row = 6, rowspan = 2, padx = 5, pady = 10)
+	steptext.config(state = "normal")
+	steptext.delete("1.0",tk.END)
+	conjtext.grid(column = 2, columnspan = 3, row = 6, padx = 5, pady = 1)
 	conjtext.config(state = "normal")
 	conjtext.delete("1.0",tk.END)
-	extext.grid(column = 2, columnspan = 2, row = 6, pady = 10)
+	extext.grid(column = 2, columnspan = 3, row = 7, padx = 5, pady = 1)
 	extext.config(state = "normal")
 	extext.delete("1.0",tk.END)
-	file.write("\n\t" + newpronoun + newverb + "\n---\n")
+	file.write("\n\n" + newpronoun + newverb + "\n---\n")
 
 	def	audio():
 		nonlocal newpronoun, newerverb, newverb
@@ -154,33 +159,39 @@ def conj(*args):
 	if verb in drmrsv and verb not in irregular:
 		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    DRMRSVANDERTRAMP verb, auxiliary is être.\n\n    Conjugate être: \n    Pronoun = " + pronoun + "\n    Conjugate: être –––>" + aux + "\n    So final auxiliary = " + aux
 		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    -" + verb[n-2:n] + " verb, replace with " + ending + "\n    Auxiliary is être, verb needs to AGREE with\n    GENDER of PRONOUN \n    Add (e) or (s) if pronoun is feminine or plural\n    Final past participle: " + newerverb
-		result = step1 + "\n\n" + step2 + "\n\n" + " " + "             ANSWER: "+ newpronoun + newerverb
-		example = " " + newpronoun + newerverb + " " + sentenceend
+		result =  "HOW TO CONJUGATE: \n\n" + step1 + "\n\n" + step2
+		answer = "ANSWER: \n\n"+ newpronoun + newerverb
+		example = "EXAMPLE: \n\n " + newpronoun + newerverb + " " + sentenceend
 	if verb in drmrsv and verb in irregular:
 		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    DRMRSVANDERTRAMP verb, auxiliary is être.\n\n    Conjugate être: \n    Pronoun = " + pronoun + "\n    Conjugate: être –––>" + aux + "\n    So final auxiliary = " + aux
 		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is être, verb needs to AGREE with\n    GENDER of PRONOUN \n    Add (e) or (s) if pronoun is feminine or plural\n    Final past participle: " + newerverb
-		result = step1 + "\n\n" + step2 + "\n\n" + " " + "             ANSWER: "+ newpronoun + newerverb
-		example = " " + newpronoun + newerverb + " " + sentenceend
+		result =  "HOW TO CONJUGATE: \n\n" + step1 + "\n\n" + step2
+		answer = "ANSWER: \n\n"+ newpronoun + newerverb
+		example = "EXAMPLE: \n\n " + newpronoun + newerverb + " " + sentenceend
 	if verb not in drmrsv and verb not in irregular:
 		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
 		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
-		result = step1 + "\n\n" + step2 + "\n\n" + " " + "             ANSWER: "+ newpronoun + newverb
-		example = " " + newpronoun + newverb + " " + sentenceend
+		result =  "HOW TO CONJUGATE: \n\n" + step1 + "\n\n" + step2
+		answer = "ANSWER: \n\n"+ newpronoun + newverb
+		example = "EXAMPLE: \n\n " + newpronoun + newverb + " " + sentenceend
 	if verb not in drmrsv and verb in irregular:
 		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
 		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
-		result = step1 + "\n\n" + step2 + "\n\n" + " " + "             ANSWER: "+ newpronoun + newverb
-		example = " " + newpronoun + newverb + " " + sentenceend
+		result = "HOW TO CONJUGATE: \n\n"+step1 + "\n\n" + step2
+		answer = "ANSWER: \n\n"+ newpronoun + newverb
+		example = "EXAMPLE: \n\n " + newpronoun + newverb + " " + sentenceend
 
 	#audio buttons
 	audiobtn = tk.Button(root, text = "Audio")
 	audiobtn.config(command = audio, height = 2, font = ("arvo", 16), highlightbackground = "#e5f6ff")
-	audiobtn.grid(row = 6, column = 1, sticky = "se", padx = 25, pady = 20)
+	audiobtn.grid(row = 6, column = 3, sticky = "se", padx = 15, pady = 20)
 	audiobtn2 = tk.Button(root, text = "Audio")
 	audiobtn2.config(command = audio2, height = 2, font = ("arvo", 16), highlightbackground = "#e5f6ff")
-	audiobtn2.grid(row = 6, column = 3, sticky="se", padx = 15, pady = 20)
+	audiobtn2.grid(row = 7, column = 3, sticky="se", padx = 15, pady = 20)
 
-	conjtext.insert(tk.END, result)
+	steptext.insert(tk.END, result)
+	steptext.config(state = "disabled")	
+	conjtext.insert(tk.END, answer)
 	conjtext.config(state = "disabled")	
 	extext.insert(tk.END, example)
 	extext.config(state = "disabled")
@@ -198,6 +209,7 @@ def highcontrast(*args):
 		pnlabel.config(bg = "#0019a6", fg = "white")
 		verblabel.config(bg = "#0019a6", fg = "white")
 		textbox.config(bg = "black", fg = "white")
+		steptext.config(bg = "black", fg = "white")
 		conjtext.config(bg = "black", fg = "white")
 		extext.config(bg = "black", fg = "white")
 		highc.config(bg = "#0019a6", fg = "white")
@@ -215,6 +227,7 @@ def highcontrast(*args):
 		pnlabel.config(bg = "#e5f6ff", fg = "#005274")
 		verblabel.config(bg = "#e5f6ff", fg = "#005274")
 		textbox.config(bg = "#cff1ff", fg = "black")
+		steptext.config(bg = "white", fg = "black")
 		conjtext.config(bg = "white", fg = "black")
 		extext.config(bg = "white", fg = "black")
 		highc.config(bg = "#e5f6ff", fg = "black")
@@ -281,10 +294,10 @@ correct.config(fg = "green", font = ("arvo", 18), bg = "#e5f6ff")
 incorrect = tk.Label(root, text = "X Incorrect!")
 incorrect.config(fg = "red", font = ("arvo", 18), bg = "#e5f6ff")
 
-textbox = tk.Text(root)		#Textbox to place outputs and examples.
-textbox.config(width = 60, height = 5, state = "normal", bg = "#cff1ff", font = ("arvo", 16))
-textbox.grid(row = 3, columnspan = 5, padx = 10)	
-textbox.insert(tk.END, "Explaination...")
+textbox = tk.Text(root)	
+textbox.config(width = 62, height = 9, state = "normal", bg = "#cff1ff", font = ("arvo", 15))
+textbox.grid(row = 3, columnspan = 5, padx = 10, ipadx = 20)	
+textbox.insert(tk.END, "- Passé composé is the most common past tense in French. It requires a pronoun,  auxilliary, \nand past participle. \n- The auxiliary (either avoir or être) is chosen depending on the past participle. \n- If the verb is a DRMRSVANDERTRAMP verb,  the auxiliary would be être,  otherwise,  it would \nbe avoir. \n- A past participle is the verb but in past tense,  and it's ending is changed depending on if it is \nan -er, -ir, or -re verb.\n- If the verb is a DRMRSVANDERTRAMP verb,  the past participle needs to agree with the \npronoun.")
 textbox.config(state = "disabled")
 
 pnlabel = tk.Label(root, text = "Pronoun: ")
@@ -303,21 +316,24 @@ verbEntry = tk.Entry(root)	#Entry box will be used for verb
 verbEntry.config(width = 30)
 verbEntry.grid(column = 1, row = 5, sticky = "w", columnspan = 2)
 
-conjbutton = tk.Button(root, text = "Conjugate")	#Button, will be used to do the conjugation, and for audio
+conjbutton = tk.Button(root, text = "Conjugate")
 conjbutton.config(fg = "#003274", highlightbackground = "#89dbff", width = 15, height=2, command = conj)
 conjbutton.grid(column = 3, row = 4, rowspan = 2, sticky = "w")
 
+steptext = tk.Text(root, relief = tk.FLAT)
+steptext.config(font = ("arvo", 14), width = 33, height = 20, state = "disabled")
+
 conjtext = tk.Text(root, relief = tk.FLAT)
-conjtext.config(font = ("arvo", 14), width = 33, height = 21, state = "disabled")
+conjtext.config(font = ("arvo", 16), width = 30, height = 8, state = "disabled")
 
 extext = tk.Text(root, relief = tk.FLAT)
-extext.config(font = ("arvo", 14), width = 33, height = 21, state = "disabled")
+extext.config(font = ("arvo", 16), width = 30, height = 8, state = "disabled")
 
 highc = tk.Checkbutton(root, text = "High Contrast")	#Checkbox for high contrast
 highc.config(bg = "#e5f6ff", command = highcontrast, var = highcon, onvalue = 1, offvalue = 0)
-highc.grid(column = 3, columnspan = 2, row = 7)
+highc.grid(column = 3, columnspan = 2, row = 8)
 
-root.config(bg = "#e5f6ff")
+root.config(bg = "#e5f6ff", height = 1000)
 root.protocol("WM_DELETE_WINDOW", on_closing)
 
 root.mainloop()
