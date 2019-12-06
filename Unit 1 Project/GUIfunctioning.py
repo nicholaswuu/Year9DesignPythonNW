@@ -31,170 +31,192 @@ def conj(*args):
 	n = len(verb) 
 	pnEntry.delete(0,tk.END)
 	verbEntry.delete(0,tk.END)
-	pronoun = pronoun[0].upper()+pronoun[1:].lower() #sets the pronoun to have a capital first letter
-	verb = verb.lower()
-	sentenceend = random.choice(sentencends)
-	file.write("Pronoun: " + pronoun + "\nVerb: " + verb)
 
-	textbox.grid_remove()
+	try:
 
+		pronoun = pronoun[0].upper()+pronoun[1:].lower() #sets the pronoun to have a capital first letter
+		verb = verb.lower()
+		sentenceend = random.choice(sentencends)
+		textbox.grid_remove()
+		
+		if verb[n-2:n] == "er" and verb not in irregular:
+			ending = "é"
+			newverb = verb[:n-2] + ending 
 
-	if verb[n-2:n] == "er" and verb not in irregular:
-		ending = "é"
-		newverb = verb[:n-2] + ending 
+		if verb[n-2:n] == "ir" and verb not in irregular:
+			ending = "i"
+			newverb = verb[:n-2] + ending 
 
-	if verb[n-2:n] == "ir" and verb not in irregular:
-		ending = "i"
-		newverb = verb[:n-2] + ending 
+		if verb[n-2:n] == "re" and verb not in irregular:
+			ending = "u"
+			newverb = verb[:n-2] + ending 
 
-	if verb[n-2:n] == "re" and verb not in irregular:
-		ending = "u"
-		newverb = verb[:n-2] + ending 
+		if verb in irregular:
+			for i in range(len(irregular)):
+				if verb == irregular[i]:
+					newverb = irregularnew[i]
 
-	if verb in irregular:
-		for i in range(len(irregular)):
-			if verb == irregular[i]:
-				newverb = irregularnew[i]
+		if pronoun == "Je" and verb in drmrsv:
+			aux = " suis "
+			newpronoun = pronoun + aux
+			newerverb = newverb + "(e)"
+		if pronoun == "Je" and verb not in drmrsv:
+			aux = "ai "
+			newpronoun = "J'" + aux
 
-	if pronoun == "Je" and verb in drmrsv:
-		aux = " suis "
-		newpronoun = pronoun + aux
-		newerverb = newverb + "(e)"
-	if pronoun == "Je" and verb not in drmrsv:
-		aux = "ai "
-		newpronoun = "J'" + aux
+		if pronoun == "Tu" and verb in drmrsv:
+			aux = " es "
+			newpronoun = pronoun + aux
+			newerverb = newverb + "(e)"
+		if pronoun == "Tu" and verb not in drmrsv:
+			aux = " as "
+			newpronoun = pronoun + aux
 
-	if pronoun == "Tu" and verb in drmrsv:
-		aux = " es "
-		newpronoun = pronoun + aux
-		newerverb = newverb + "(e)"
-	if pronoun == "Tu" and verb not in drmrsv:
-		aux = " as "
-		newpronoun = pronoun + aux
+		if pronoun == "Il" and verb in drmrsv or pronoun == "Elle" and verb in drmrsv or pronoun == "On" and verb in drmrsv:
+			aux = " est "
+			newpronoun = pronoun + aux
+			if pronoun == "Elle":
+				newerverb = newverb + "e"
+			if pronoun == "On":
+				newerverb = newverb + "(e)s"
+		if pronoun == "Il" and verb not in drmrsv or pronoun == "Elle" and verb not in drmrsv or pronoun == "On" and verb not in drmrsv:
+			aux = " a "
+			newpronoun = pronoun + aux
 
-	if pronoun == "Il" and verb in drmrsv or pronoun == "Elle" and verb in drmrsv or pronoun == "On" and verb in drmrsv:
-		aux = " est "
-		newpronoun = pronoun + aux
-		if pronoun == "Elle":
-			newerverb = newverb + "e"
-		if pronoun == "On":
+		if pronoun == "Nous" and verb in drmrsv:
+			aux = " sommes "
+			newpronoun = pronoun + aux
 			newerverb = newverb + "(e)s"
-	if pronoun == "Il" and verb not in drmrsv or pronoun == "Elle" and verb not in drmrsv or pronoun == "On" and verb not in drmrsv:
-		aux = " a "
-		newpronoun = pronoun + aux
+		if pronoun == "Nous" and verb not in drmrsv:
+			aux = " avons "
+			newpronoun = pronoun + aux
 
-	if pronoun == "Nous" and verb in drmrsv:
-		aux = " sommes "
-		newpronoun = pronoun + aux
-		newerverb = newverb + "(e)s"
-	if pronoun == "Nous" and verb not in drmrsv:
-		aux = " avons "
-		newpronoun = pronoun + aux
+		if pronoun == "Vous" and verb in drmrsv:
+			aux = " êtes "
+			newpronoun = pronoun + aux
+			newerverb = newverb + "(e)(s)"
+		if pronoun == "Vous" and verb not in drmrsv:
+			aux = " avez "
+			newpronoun = pronoun + aux
 
-	if pronoun == "Vous" and verb in drmrsv:
-		aux = " êtes "
-		newpronoun = pronoun + aux
-		newerverb = newverb + "(e)(s)"
-	if pronoun == "Vous" and verb not in drmrsv:
-		aux = " avez "
-		newpronoun = pronoun + aux
+		if pronoun == "Ils" and verb in drmrsv or pronoun == "Elles" and verb in drmrsv:
+			aux = " sont "
+			newpronoun = pronoun + aux
+			if pronoun == "Elles":
+				newerverb = newverb + "es"
+			if pronoun == "Ils":
+				newerverb = newverb + "s"
+		if pronoun == "Ils" and verb not in drmrsv or pronoun == "Elles" and verb not in drmrsv:
+			aux = " ont "
+			newpronoun = pronoun + aux
 
-	if pronoun == "Ils" and verb in drmrsv or pronoun == "Elles" and verb in drmrsv:
-		aux = " sont "
-		newpronoun = pronoun + aux
-		if pronoun == "Elles":
-			newerverb = newverb + "es"
-		if pronoun == "Ils":
-			newerverb = newverb + "s"
-	if pronoun == "Ils" and verb not in drmrsv or pronoun == "Elles" and verb not in drmrsv:
-		aux = " ont "
-		newpronoun = pronoun + aux
+		def	audio():
+			nonlocal newpronoun, newerverb, newverb
+			newpronoun = newpronoun.replace("'", "")
+			if verb in drmrsv:
+				newerverb = newerverb.replace("(e)", "")
+				newerverb = newerverb.replace("(s)", "")
+				if newerverb[len(newerverb)-1] == "é":
+					newerverb = newerverb[:len(newerverb)-1] + "er"
+				os.system("say -v Thomas " + newpronoun + newerverb)
 
-	steptext.grid(column = 0, columnspan = 2, row = 6, rowspan = 2, padx = 5, pady = 10)
-	steptext.config(state = "normal")
-	steptext.delete("1.0",tk.END)
-	conjtext.grid(column = 2, columnspan = 3, row = 6, padx = 5, pady = 1)
-	conjtext.config(state = "normal")
-	conjtext.delete("1.0",tk.END)
-	extext.grid(column = 2, columnspan = 3, row = 7, padx = 5, pady = 1)
-	extext.config(state = "normal")
-	extext.delete("1.0",tk.END)
-	file.write("\n\n" + newpronoun + newverb + "\n---\n")
+			if verb not in drmrsv:
+				if newverb[len(newverb)-1] == "é":
+					newverb = newverb[:len(newverb)-1] + "er"
+				os.system("say -v Thomas " + newpronoun + newverb)
 
-	def	audio():
-		nonlocal newpronoun, newerverb, newverb
-		newpronoun = newpronoun.replace("'", "")
-		if verb in drmrsv:
-			newerverb = newerverb.replace("(e)", "")
-			newerverb = newerverb.replace("(s)", "")
-			if newerverb[len(newerverb)-1] == "é":
-				newerverb = newerverb[:len(newerverb)-1] + "er"
-			os.system("say -v Thomas " + newpronoun + newerverb)
+		def audio2():
+			nonlocal newpronoun, newerverb, newverb, sentenceend
+			newpronoun = newpronoun.replace("'", "")
+			if verb in drmrsv:
+				newerverb = newerverb.replace("(e)", "")
+				newerverb = newerverb.replace("(s)", "")
+				sentenceend = sentenceend.replace("'", "")
+				if newerverb[len(newerverb)-1] == "é":
+					newerverb = newerverb[:len(newerverb)-1] + "er"
+				os.system("say -v Thomas " + newpronoun + newerverb + " " + sentenceend)
 
-		if verb not in drmrsv:
-			if newverb[len(newverb)-1] == "é":
-				newverb = newverb[:len(newverb)-1] + "er"
-			os.system("say -v Thomas " + newpronoun + newverb)
+			if verb not in drmrsv:
+				sentenceend = sentenceend.replace("'", "")
+				if newverb[len(newverb)-1] == "é":
+					newverb = newverb[:len(newverb)-1] + "er"
+				os.system("say -v Thomas " + newpronoun + newverb + " " + sentenceend)
 
-	def audio2():
-		nonlocal newpronoun, newerverb, newverb, sentenceend
-		newpronoun = newpronoun.replace("'", "")
-		if verb in drmrsv:
-			newerverb = newerverb.replace("(e)", "")
-			newerverb = newerverb.replace("(s)", "")
-			sentenceend = sentenceend.replace("'", "")
-			if newerverb[len(newerverb)-1] == "é":
-				newerverb = newerverb[:len(newerverb)-1] + "er"
-			os.system("say -v Thomas " + newpronoun + newerverb + " " + sentenceend)
+		#Step by step explaination
+		if verb in drmrsv and verb not in irregular:
+			step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    DRMRSVANDERTRAMP verb, auxiliary is être.\n\n    Conjugate être: \n    Pronoun = " + pronoun + "\n    Conjugate: être –––>" + aux + "\n    So final auxiliary = " + aux
+			step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    -" + verb[n-2:n] + " verb, replace with " + ending + "\n    Auxiliary is être, verb needs to AGREE with\n    GENDER of PRONOUN \n    Add (e) or (s) if pronoun is feminine or plural\n    Final past participle: " + newerverb
+			result =  "HOW TO CONJUGATE: \n\n" + step1 + "\n\n" + step2
+			answer = "ANSWER: \n\n"+ newpronoun + newerverb
+			example = "EXAMPLE: \n\n" + newpronoun + newerverb + " " + sentenceend
+		if verb in drmrsv and verb in irregular:
+			step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    DRMRSVANDERTRAMP verb, auxiliary is être.\n\n    Conjugate être: \n    Pronoun = " + pronoun + "\n    Conjugate: être –––>" + aux + "\n    So final auxiliary = " + aux
+			step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is être, verb needs to AGREE with\n    GENDER of PRONOUN \n    Add (e) or (s) if pronoun is feminine or plural\n    Final past participle: " + newerverb
+			result =  "HOW TO CONJUGATE: \n\n" + step1 + "\n\n" + step2
+			answer = "ANSWER: \n\n"+newpronoun + newerverb
+			example = "EXAMPLE: \n\n" + newpronoun + newerverb + " " + sentenceend
+		if verb not in drmrsv and verb not in irregular:
+			step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
+			step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
+			result =  "HOW TO CONJUGATE: \n\n" + step1 + "\n\n" + step2
+			answer = "ANSWER: \n\n"+ newpronoun + newverb
+			example = "EXAMPLE: \n\n" + newpronoun + newverb + " " + sentenceend
+		if verb not in drmrsv and verb in irregular:
+			step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
+			step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
+			result = "HOW TO CONJUGATE: \n\n"+step1 + "\n\n" + step2
+			answer = "ANSWER: \n\n"+ newpronoun + newverb
+			example = "EXAMPLE: \n\n" + newpronoun + newverb + " " + sentenceend
 
-		if verb not in drmrsv:
-			sentenceend = sentenceend.replace("'", "")
-			if newverb[len(newverb)-1] == "é":
-				newverb = newverb[:len(newverb)-1] + "er"
-			os.system("say -v Thomas " + newpronoun + newverb + " " + sentenceend)
+		#audio buttons
+		audiobtn = tk.Button(root, text = "Audio")
+		audiobtn.config(command = audio, height = 2, font = ("arvo", 16), highlightbackground = "#e5f6ff")
+		audiobtn.grid(row = 6, column = 3, sticky = "se", padx = 15, pady = 20)
+		audiobtn2 = tk.Button(root, text = "Audio")
+		audiobtn2.config(command = audio2, height = 2, font = ("arvo", 16), highlightbackground = "#e5f6ff")
+		audiobtn2.grid(row = 7, column = 3, sticky="se", padx = 15, pady = 20)
 
+		steptext.grid(column = 0, columnspan = 2, row = 6, rowspan = 2, padx = 5, pady = 10)
+		steptext.config(state = "normal")
+		steptext.delete("1.0",tk.END)
+		steptext.insert(tk.END, result)	
+		steptext.config(state = "disabled")	
 
+		conjtext.grid(column = 2, columnspan = 3, row = 6, padx = 5, pady = 1)
+		conjtext.config(state = "normal")
+		conjtext.delete("1.0",tk.END)
+		conjtext.insert(tk.END, answer)
+		conjtext.config(state = "disabled")	
 
-	#Step by step explaination
-	if verb in drmrsv and verb not in irregular:
-		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    DRMRSVANDERTRAMP verb, auxiliary is être.\n\n    Conjugate être: \n    Pronoun = " + pronoun + "\n    Conjugate: être –––>" + aux + "\n    So final auxiliary = " + aux
-		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    -" + verb[n-2:n] + " verb, replace with " + ending + "\n    Auxiliary is être, verb needs to AGREE with\n    GENDER of PRONOUN \n    Add (e) or (s) if pronoun is feminine or plural\n    Final past participle: " + newerverb
-		result =  "HOW TO CONJUGATE: \n\n" + step1 + "\n\n" + step2
-		answer = "ANSWER: \n\n"+ newpronoun + newerverb
-		example = "EXAMPLE: \n\n " + newpronoun + newerverb + " " + sentenceend
-	if verb in drmrsv and verb in irregular:
-		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    DRMRSVANDERTRAMP verb, auxiliary is être.\n\n    Conjugate être: \n    Pronoun = " + pronoun + "\n    Conjugate: être –––>" + aux + "\n    So final auxiliary = " + aux
-		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is être, verb needs to AGREE with\n    GENDER of PRONOUN \n    Add (e) or (s) if pronoun is feminine or plural\n    Final past participle: " + newerverb
-		result =  "HOW TO CONJUGATE: \n\n" + step1 + "\n\n" + step2
-		answer = "ANSWER: \n\n"+ newpronoun + newerverb
-		example = "EXAMPLE: \n\n " + newpronoun + newerverb + " " + sentenceend
-	if verb not in drmrsv and verb not in irregular:
-		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
-		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
-		result =  "HOW TO CONJUGATE: \n\n" + step1 + "\n\n" + step2
-		answer = "ANSWER: \n\n"+ newpronoun + newverb
-		example = "EXAMPLE: \n\n " + newpronoun + newverb + " " + sentenceend
-	if verb not in drmrsv and verb in irregular:
-		step1 = " 1. Auxiliary.\n\n    Verb = " + verb + "\n    avoir verb, auxiliary is avoir.\n\n    Conjugate avoir: \n    Pronoun = " + pronoun + "\n    Conjugate: avoir –––>" + aux + "\n    So final auxiliary = " + aux
-		step2 = " 2. Past participle.\n\n    Verb = " + verb + "\n    Irregular verb, conjugation: " + verb + "––" + newverb + "\n    Auxiliary is avoir, verb doesn't need to AGREE\n    with GENDER of PRONOUN \n    Final past participle: " + newverb
-		result = "HOW TO CONJUGATE: \n\n"+step1 + "\n\n" + step2
-		answer = "ANSWER: \n\n"+ newpronoun + newverb
-		example = "EXAMPLE: \n\n " + newpronoun + newverb + " " + sentenceend
+		extext.grid(column = 2, columnspan = 3, row = 7, padx = 5, pady = 1)
+		extext.config(state = "normal")
+		extext.delete("1.0",tk.END)
+		extext.insert(tk.END, example)
+		extext.config(state = "disabled")
 
-	#audio buttons
-	audiobtn = tk.Button(root, text = "Audio")
-	audiobtn.config(command = audio, height = 2, font = ("arvo", 16), highlightbackground = "#e5f6ff")
-	audiobtn.grid(row = 6, column = 3, sticky = "se", padx = 15, pady = 20)
-	audiobtn2 = tk.Button(root, text = "Audio")
-	audiobtn2.config(command = audio2, height = 2, font = ("arvo", 16), highlightbackground = "#e5f6ff")
-	audiobtn2.grid(row = 7, column = 3, sticky="se", padx = 15, pady = 20)
+		file.write("Pronoun: " + pronoun + "\nVerb: " + verb)
+		file.write("\n\n" + newpronoun + newverb + "\n\n" + example +"\n---\n")
 
-	steptext.insert(tk.END, result)
-	steptext.config(state = "disabled")	
-	conjtext.insert(tk.END, answer)
-	conjtext.config(state = "disabled")	
-	extext.insert(tk.END, example)
-	extext.config(state = "disabled")
+	
+	except:
+
+		steptext.grid(column = 0, columnspan = 2, row = 6, rowspan = 2, padx = 5, pady = 10)
+		steptext.config(state = "normal")
+		steptext.delete("1.0",tk.END)
+		steptext.insert(tk.END, "Error! Invalid Entry!")	
+		steptext.config(state = "disabled")	
+
+		conjtext.grid(column = 2, columnspan = 3, row = 6, padx = 5, pady = 1)
+		conjtext.config(state = "normal")
+		conjtext.delete("1.0",tk.END)
+		conjtext.insert(tk.END, "Error! Invalid Entry!")
+		conjtext.config(state = "disabled")	
+
+		extext.grid(column = 2, columnspan = 3, row = 7, padx = 5, pady = 1)
+		extext.config(state = "normal")
+		extext.delete("1.0",tk.END)
+		extext.insert(tk.END, "Error! Invalid Entry!")
+		extext.config(state = "disabled")
 
 def highcontrast(*args):
 	if highcon.get()==1:

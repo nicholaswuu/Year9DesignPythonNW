@@ -2,4 +2,8 @@ Pronoun: Je
 Verb: aller
 
 Je suis allé
+
+EXAMPLE: 
+
+Je suis allé(e) à la parc.
 ---
