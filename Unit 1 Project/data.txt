@@ -1,0 +1,9 @@
+Pronoun: Je
+Verb: aller
+
+Je suis allé
+
+EXAMPLE: 
+
+Je suis allé(e) au café.
+---
