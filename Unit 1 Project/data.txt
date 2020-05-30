@@ -5,5 +5,5 @@ Je suis allé
 
 EXAMPLE: 
 
-Je suis allé(e) au café.
+Je suis allé(e) à l'hôpital.
 ---
