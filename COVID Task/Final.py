@@ -9,6 +9,9 @@ y = datetime.now().year
 
 weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+tasks = []
+
+row = 1
 
 numdays = monthrange(y,m)[1]
 startofmonth = monthrange(y,m)[0]
@@ -73,11 +76,18 @@ def newtask():
 
 def addcancel():
 	global sidebar, sidebar2
+	taskname.delete(0, tk.END)
+	datesetD.delete(0, tk.END)
+	datesetM.delete(0, tk.END)
+	datesetY.delete(0, tk.END)
+	timestart.delete(0, tk.END)
+	timeend.delete(0, tk.END)
+	newsched.delete(0, tk.END)
 	sidebar2.grid_forget()
 	sidebar.grid(row=0, rowspan = 2, column = 1, sticky="n")
 
 def addsave():
-	global sidebar, sidebar2
+	global sidebar, sidebar2, row
 	title = taskname.get()
 	day = datesetD.get()
 	month = datesetM.get()
@@ -90,6 +100,17 @@ def addsave():
 	else:
 		sched = var.get()
 
+	scheduleselect = tk.OptionMenu(sidebar2, var, schedlist)
+	scheduleselect.config(width = 14)
+	scheduleselect.grid(row = 6, column = 0, columnspan = 2, padx = 10, pady = 15, sticky = "e")
+
+	tasks.append(title)
+
+	taskcheck = tk.IntVar()
+	checktask = tk.Checkbutton(sidebar, text = title)
+	checktask.config(var = taskcheck, onvalue = 1, offvalue = 0)
+	checktask.grid(column = 0, columnspan = 2, row = row, padx = 10, pady = 10, sticky = "w")
+	row = row + 1
 	taskname.delete(0, tk.END)
 	datesetD.delete(0, tk.END)
 	datesetM.delete(0, tk.END)
@@ -99,11 +120,11 @@ def addsave():
 	newsched.delete(0, tk.END)
 	sidebar2.grid_forget()
 	sidebar.grid(row=0, rowspan = 2, column = 1, sticky="n")
-	print(title, day, month, year, timebegin, timefinish, sched, schedlist)
+	print(title, day, month, year, timebegin, timefinish, sched, schedlist, tasks)
 
 root = tk.Tk()
 
-schedlist=[""]
+schedlist=[]
 var = tk.StringVar(root)
 var.set("Select a schedule")
 
@@ -146,8 +167,8 @@ for i in range(1, numdays+1, 1):
 
 head = tk.Label(sidebar, text = "Tasks", font = ("Roboto",25), width = 15, height = 2, bg = "#e0eefa")
 taskbtn = tk.Button(sidebar, text = "Add Task", bg = "#e0eefa", width = 15, height = 2, command = newtask)
-head.grid(row = 0, padx = 10, pady = 15)
-taskbtn.grid(row = 1, padx = 10, pady = 15, sticky = "s")
+head.grid(row = 0, column = 0, columnspan = 2, padx = 10, pady = 15)
+taskbtn.grid(row = 10, column = 0, columnspan = 2, padx = 10, pady = 15, sticky = "s")
 
 addtaskhead = tk.Label(sidebar2, text = "New Task", font = ("Roboto",25), width = 15, height = 2, bg = "#e0eefa")
 tasknamelabel = tk.Label(sidebar2, text = "Task Name:", font = ("Roboto", 15))
@@ -163,8 +184,8 @@ timestart = tk.Entry(sidebar2, width = 5)
 timeto = tk.Label(sidebar2, text = "–", font = ("Roboto", 15))
 timeend = tk.Entry(sidebar2, width = 5)
 schedlabel = tk.Label(sidebar2, text = "Schedule: ", font = ("Roboto", 15))
-scheduleselect = tk.OptionMenu(sidebar2, var, *schedlist)
-newschedlabel = tk.Label(sidebar2, text = "New Schedule: ", font = ("Roboto", 15))
+scheduleselect = tk.OptionMenu(sidebar2, var, schedlist)
+newschedlabel = tk.Label(sidebar2, text = "Insert to New Schedule: ", font = ("Roboto", 15))
 newsched = tk.Entry(sidebar2, width = 25)
 cancelbtn = tk.Button(sidebar2, text = "Cancel", bg = "#e0eefa", width = 12, height = 2, command = addcancel)
 addbtn = tk.Button(sidebar2, text = "Add", bg = "#e0eefa", width = 12, height = 2, command = addsave)
