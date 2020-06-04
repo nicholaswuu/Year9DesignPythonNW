@@ -93,6 +93,7 @@ sidebar = tk.LabelFrame(root, bd = 0)
 sidebar.grid(row=0, rowspan = 2, column = 1, sticky="n")
 
 sidebar2 = tk.LabelFrame(root, bd = 0)
+
 #******************** HEADER *********************
 
 prev = tk.Button(header, text = "<", font = ("Roboto",35), fg = "black", width = 3, command = prevmonth)
@@ -146,7 +147,7 @@ slash.grid(row = 4, column = 0, pady = (0,10))
 datesetM.grid(row = 4, padx = 15, pady = (0,10), column = 0, sticky = "e")
 slash2.grid(row = 4, column = 0, pady = (0,10), sticky = "e")
 datesetY.grid(row = 4, column = 1, pady = (0,10), sticky = "w")
-cancelbtn.grid(row = 6, column = 0, pady = 15, sticky = "sw")
-addbtn.grid(row = 6, column = 1, padx = 10, pady = 15, sticky = "se")
+cancelbtn.grid(row = 8, column = 0, pady = 15, sticky = "sw")
+addbtn.grid(row = 8, column = 1, padx = 10, pady = 15, sticky = "se")
 
 root.mainloop()
