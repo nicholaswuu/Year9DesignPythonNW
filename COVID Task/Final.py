@@ -78,10 +78,34 @@ def addcancel():
 
 def addsave():
 	global sidebar, sidebar2
+	title = taskname.get()
+	day = datesetD.get()
+	month = datesetM.get()
+	year = datesetY.get()
+	timebegin = timestart.get()
+	timefinish = timeend.get()
+	if(var.get() == "Select a schedule"):
+		sched = newsched.get()
+		schedlist.append(sched)
+	else:
+		sched = var.get()
+
+	taskname.delete(0, tk.END)
+	datesetD.delete(0, tk.END)
+	datesetM.delete(0, tk.END)
+	datesetY.delete(0, tk.END)
+	timestart.delete(0, tk.END)
+	timeend.delete(0, tk.END)
+	newsched.delete(0, tk.END)
 	sidebar2.grid_forget()
 	sidebar.grid(row=0, rowspan = 2, column = 1, sticky="n")
+	print(title, day, month, year, timebegin, timefinish, sched, schedlist)
 
 root = tk.Tk()
+
+schedlist=[""]
+var = tk.StringVar(root)
+var.set("Select a schedule")
 
 header = tk.LabelFrame(root, bd = 0)
 header.grid(row=0, column = 0, sticky="n")
@@ -134,20 +158,38 @@ slash = tk.Label(sidebar2, text = "/", font = ("Roboto", 15))
 datesetM = tk.Entry(sidebar2, width = 3)
 slash2 = tk.Label(sidebar2, text = "/", font = ("Roboto", 15))
 datesetY = tk.Entry(sidebar2, width = 5)
-
+timelabel = tk.Label(sidebar2, text = "Time: ", font = ("Roboto", 15))
+timestart = tk.Entry(sidebar2, width = 5)
+timeto = tk.Label(sidebar2, text = "–", font = ("Roboto", 15))
+timeend = tk.Entry(sidebar2, width = 5)
+schedlabel = tk.Label(sidebar2, text = "Schedule: ", font = ("Roboto", 15))
+scheduleselect = tk.OptionMenu(sidebar2, var, *schedlist)
+newschedlabel = tk.Label(sidebar2, text = "New Schedule: ", font = ("Roboto", 15))
+newsched = tk.Entry(sidebar2, width = 25)
 cancelbtn = tk.Button(sidebar2, text = "Cancel", bg = "#e0eefa", width = 12, height = 2, command = addcancel)
 addbtn = tk.Button(sidebar2, text = "Add", bg = "#e0eefa", width = 12, height = 2, command = addsave)
 
+scheduleselect.config(width = 14)
+
 addtaskhead.grid(row = 0, column = 0, columnspan = 2, padx = 10, pady = 15)
 tasknamelabel.grid(row = 1, column = 0, columnspan = 2, padx = 10, pady = (0,10), sticky = "w")
-taskname.grid(row = 2, column = 0, columnspan = 2, padx = 10, pady = (0,10))
+taskname.grid(row = 2, column = 0, columnspan = 2, padx = 10, pady = (0,15))
 datelabel.grid(row = 3, column = 0, columnspan = 2, padx = 10, pady = 10, sticky = "w")
-datesetD.grid(row = 4, column = 0, padx = 10, pady = (0,10), sticky = "w")
-slash.grid(row = 4, column = 0, pady = (0,10))
-datesetM.grid(row = 4, padx = 15, pady = (0,10), column = 0, sticky = "e")
-slash2.grid(row = 4, column = 0, pady = (0,10), sticky = "e")
-datesetY.grid(row = 4, column = 1, pady = (0,10), sticky = "w")
-cancelbtn.grid(row = 8, column = 0, pady = 15, sticky = "sw")
-addbtn.grid(row = 8, column = 1, padx = 10, pady = 15, sticky = "se")
+datesetD.grid(row = 4, column = 0, padx = 10, pady = (0,15), sticky = "w")
+slash.grid(row = 4, column = 0, pady = (0,15))
+datesetM.grid(row = 4, column = 0, padx = 15, pady = (0,15), sticky = "e")
+slash2.grid(row = 4, column = 0, pady = (0,15), sticky = "e")
+datesetY.grid(row = 4, column = 1, pady = (0,15), sticky = "w")
+timelabel.grid(row = 5, column = 0, padx = 10, pady = 15, sticky = "w")
+timestart.grid(row = 5, column = 0, pady = 15, sticky = "e")
+timeto.grid(row = 5, column = 1, pady = 15, sticky = "w")
+timeend.grid(row = 5, column = 1, padx = 20, pady = 15, sticky = "w")
+schedlabel.grid(row = 6, column = 0, padx = (10,0), pady = 15, sticky = "w")
+scheduleselect.grid(row = 6, column = 0, columnspan = 2, padx = 10, pady = 15, sticky = "e")
+newschedlabel.grid(row = 7, column = 0, columnspan = 2, padx = 10, pady = 10, sticky = "w")
+newsched.grid(row = 8, column = 0, columnspan = 2, padx = 10, sticky = "w")
+cancelbtn.grid(row = 9, column = 0, pady = (180,0), sticky = "sw")
+addbtn.grid(row = 9, column = 1, padx = 10, pady = (180,0), sticky = "se")
+
 
 root.mainloop()
