@@ -147,7 +147,7 @@ def addsave():
 	# The lambda is like "lambda arguments : expression"
 	# So it takes in the argument j, which we set equal the 'checktask' object we created the line before
 	# And then passes in that object to the function moveTask
-	checktask['command'] = lambda j=checktask: moveTask(j)
+	checktask['command'] = lambda : moveTask(title, day, month, year, sched, timebegin, timefinish)
 	checktask.grid(column = 0, columnspan = 2, row = row, padx = 10, pady = (10,0), sticky = "w")
 	date = tk.Label(sidebar, text = day + "/" + month + "/" + year + ", " + timebegin + "–" + timefinish, fg = "grey30")
 	date.grid(column = 0, columnspan = 2, row = row + 1, padx = 10, pady = (0,10), sticky = "w")
@@ -166,9 +166,28 @@ def addsave():
 
 
 # Here, it receives the object j, which is equal to that specific checktask button
-def moveTask(checktask):
-	checkedtask.append(checktask.cget("text"))
-	print(checkedtask)
+def moveTask(title, day, month, year, sched, timebegin, timefinish):
+	#checkedtask.append(checktask.cget("text"))
+	#print(checkedtask)
+	event = {
+		"taskname": title,
+		"day": day,
+		"month": month,
+		"year": year,
+		"schedule": sched,
+		"timestart": timebegin,
+		"timeend": timefinish
+	}
+	data1 = ""
+	with open("data.json") as f:
+  		data = json.load(f)
+  		data1 = data
+  		data1.remove(event)
+
+	with open("data.json", "w") as f:
+  		json.dump(data1,f, indent = 2)
+
+
 
 root = tk.Tk()
 
@@ -210,6 +229,13 @@ for i in range(1, numdays+1, 1):
 	else:
 		date = tk.Label(cal, text = str(i), anchor = "n", width = 15, height = 6, bg = "grey98")
 	date.grid(row = (i+startofmonth)//7+2, column = dayofweek+1, padx = 5, pady = 5)
+	with open("data.json") as f:
+  		data = json.load(f)
+  		for j in range(len(data)):
+  			if(data[j]["day"] == str(i) and data[j]["month"] == str(m) and data[j]["year"] == str(y)):
+  				taskrects = tk.Label(cal, text = data[j]["taskname"], bg = "#e0eefa", width = 13)
+  				taskrects.grid(row = (i+startofmonth)//7+2, column = dayofweek+1, padx = 5, pady = 2)
+
 
 #******************** SIDEBAR *********************
 
@@ -217,6 +243,18 @@ head = tk.Label(sidebar, text = "Tasks", font = ("Roboto",25), width = 15, heigh
 taskbtn = tk.Button(sidebar, text = "Add Task", bg = "#e0eefa", width = 15, height = 2, command = newtask)
 head.grid(row = 0, column = 0, columnspan = 2, padx = 10, pady = 15)
 taskbtn.grid(row = 1000, column = 0, columnspan = 2, padx = 10, pady = 15, sticky = "s")
+
+with open("data.json") as f:
+	data = json.load(f)
+	for i in range(len(data)):
+		taskcheck = tk.IntVar()
+		checktask = tk.Checkbutton(sidebar, text = data[i]["taskname"])
+		checktask.config(var = taskcheck)
+		checktask['command'] = lambda : moveTask(data[i]["taskname"], data[i]["day"], data[i]["month"], data[i]["year"], data[i]["schedule"], data[i]["timestart"], data[i]["timeend"])
+		checktask.grid(column = 0, columnspan = 2, row = row, padx = 10, pady = (10,0), sticky = "w")
+		date = tk.Label(sidebar, text = data[i]["day"] + "/" + data[i]["month"] + "/" + data[i]["year"] + ", " + data[i]["timestart"] + "–" + data[i]["timeend"], fg = "grey30")
+		date.grid(column = 0, columnspan = 2, row = row + 1, padx = 10, pady = (0,10), sticky = "w")
+		row = row + 3
 
 addtaskhead = tk.Label(sidebar2, text = "New Task", font = ("Roboto",25), width = 15, height = 2, bg = "#e0eefa")
 tasknamelabel = tk.Label(sidebar2, text = "Task Name:", font = ("Roboto", 15))
