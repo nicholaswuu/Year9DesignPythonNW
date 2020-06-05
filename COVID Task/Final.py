@@ -2,6 +2,8 @@ from calendar import monthrange
 import tkinter as tk
 from datetime import datetime
 import tkinter.ttk
+import time
+import json
 
 d = datetime.now().day
 m = datetime.now().month
@@ -10,6 +12,7 @@ y = datetime.now().year
 weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 tasks = []
+checkedtask = []
 
 row = 1
 
@@ -68,6 +71,12 @@ def resetCal():
 		else:
 			date = tk.Label(cal, text = str(i), anchor = "n", width = 15, height = 6, bg = "grey98")
 		date.grid(row = (i+startofmonth)//7+2, column = dayofweek+1, padx = 5, pady = 5)
+		with open("data.json") as f:
+		  		data = json.load(f)
+		  		for j in range(len(data)):
+		  			if(data[j]["day"] == str(i) and data[j]["month"] == str(m) and data[j]["year"] == str(y)):
+		  				taskrects = tk.Label(cal, text = data[j]["taskname"], bg = "#e0eefa", width = 13)
+		  				taskrects.grid(row = (i+startofmonth)//7+2, column = dayofweek+1, padx = 5, pady = 2)
 
 def newtask():
 	global sidebar, sidebar2
@@ -85,6 +94,7 @@ def addcancel():
 	newsched.delete(0, tk.END)
 	sidebar2.grid_forget()
 	sidebar.grid(row=0, rowspan = 2, column = 1, sticky="n")
+	var.set("Select a schedule")
 
 def addsave():
 	global sidebar, sidebar2, row
@@ -94,8 +104,11 @@ def addsave():
 	year = datesetY.get()
 	timebegin = timestart.get()
 	timefinish = timeend.get()
-	if(var.get() == "Select a schedule"):
-		sched = newsched.get()
+	sched = newsched.get()
+	if(var.get() == "Select a schedule" and len(sched) == 0):
+		print("error")
+		return
+	if(var.get() == "Select a schedule" and len(sched) != 0):
 		schedlist.append(sched)
 	else:
 		sched = var.get()
@@ -108,9 +121,37 @@ def addsave():
 
 	taskcheck = tk.IntVar()
 	checktask = tk.Checkbutton(sidebar, text = title)
-	checktask.config(var = taskcheck, onvalue = 1, offvalue = 0)
-	checktask.grid(column = 0, columnspan = 2, row = row, padx = 10, pady = 10, sticky = "w")
-	row = row + 1
+	checktask.config(var = taskcheck)
+	# checktask.grid(column = 0, columnspan = 2, row = row, padx = 10, pady = 10, sticky = "w")
+	event = {
+		"taskname": title,
+		"day": day,
+		"month": month,
+		"year": year,
+		"schedule": sched,
+		"timestart": timebegin,
+		"timeend": timefinish
+	}
+	data1 = ""
+	with open("data.json") as f:
+  		data = json.load(f)
+  		data1 = data
+  		data1.append(event)
+
+	with open("data.json", "w") as f:
+  		json.dump(data1,f, indent = 2)
+
+	# Creates the button
+	# checktask = tk.Button(sidebar, text = title)
+	# Adds the command, that if the button is pressed, calls a lambda, which is a small anonymous function
+	# The lambda is like "lambda arguments : expression"
+	# So it takes in the argument j, which we set equal the 'checktask' object we created the line before
+	# And then passes in that object to the function moveTask
+	checktask['command'] = lambda j=checktask: moveTask(j)
+	checktask.grid(column = 0, columnspan = 2, row = row, padx = 10, pady = (10,0), sticky = "w")
+	date = tk.Label(sidebar, text = day + "/" + month + "/" + year + ", " + timebegin + "–" + timefinish, fg = "grey30")
+	date.grid(column = 0, columnspan = 2, row = row + 1, padx = 10, pady = (0,10), sticky = "w")
+	row = row + 3
 	taskname.delete(0, tk.END)
 	datesetD.delete(0, tk.END)
 	datesetM.delete(0, tk.END)
@@ -120,7 +161,14 @@ def addsave():
 	newsched.delete(0, tk.END)
 	sidebar2.grid_forget()
 	sidebar.grid(row=0, rowspan = 2, column = 1, sticky="n")
-	print(title, day, month, year, timebegin, timefinish, sched, schedlist, tasks)
+	var.set("Select a schedule")
+	resetCal()
+
+
+# Here, it receives the object j, which is equal to that specific checktask button
+def moveTask(checktask):
+	checkedtask.append(checktask.cget("text"))
+	print(checkedtask)
 
 root = tk.Tk()
 
@@ -157,7 +205,7 @@ for i in range(0, len(weekdays), 1):
 
 for i in range(1, numdays+1, 1):
 	dayofweek = (i+startofmonth)%7
-	if(i == d and m == datetime.now().month):
+	if(i == d and m == datetime.now().month and y == datetime.now().year):
 		date = tk.Label(cal, text = str(i), anchor = "n", width = 15, height = 6, fg = "black", bg = "grey90")
 	else:
 		date = tk.Label(cal, text = str(i), anchor = "n", width = 15, height = 6, bg = "grey98")
@@ -168,12 +216,12 @@ for i in range(1, numdays+1, 1):
 head = tk.Label(sidebar, text = "Tasks", font = ("Roboto",25), width = 15, height = 2, bg = "#e0eefa")
 taskbtn = tk.Button(sidebar, text = "Add Task", bg = "#e0eefa", width = 15, height = 2, command = newtask)
 head.grid(row = 0, column = 0, columnspan = 2, padx = 10, pady = 15)
-taskbtn.grid(row = 10, column = 0, columnspan = 2, padx = 10, pady = 15, sticky = "s")
+taskbtn.grid(row = 1000, column = 0, columnspan = 2, padx = 10, pady = 15, sticky = "s")
 
 addtaskhead = tk.Label(sidebar2, text = "New Task", font = ("Roboto",25), width = 15, height = 2, bg = "#e0eefa")
 tasknamelabel = tk.Label(sidebar2, text = "Task Name:", font = ("Roboto", 15))
 taskname = tk.Entry(sidebar2, width = 25)
-datelabel = tk.Label(sidebar2, text = "Date (DD/MM/YYYY): ", font = ("Roboto", 15))
+datelabel = tk.Label(sidebar2, text = "Date (D/M/Y): ", font = ("Roboto", 15))
 datesetD = tk.Entry(sidebar2, width = 3)
 slash = tk.Label(sidebar2, text = "/", font = ("Roboto", 15))
 datesetM = tk.Entry(sidebar2, width = 3)
@@ -211,6 +259,5 @@ newschedlabel.grid(row = 7, column = 0, columnspan = 2, padx = 10, pady = 10, st
 newsched.grid(row = 8, column = 0, columnspan = 2, padx = 10, sticky = "w")
 cancelbtn.grid(row = 9, column = 0, pady = (180,0), sticky = "sw")
 addbtn.grid(row = 9, column = 1, padx = 10, pady = (180,0), sticky = "se")
-
 
 root.mainloop()
